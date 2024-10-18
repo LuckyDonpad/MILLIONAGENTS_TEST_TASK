@@ -2,13 +2,13 @@ import requests
 import fake_useragent
 from bs4 import BeautifulSoup
 from pprint import pformat
-
-import card_parser
 from card_parser import CardParser
 from page_parser import PageParser
+import utils
 
 user_agent = fake_useragent.UserAgent().random
 headers = {"User-Agent": user_agent}
+
 
 # url = "https://online.metro-cc.ru/category/molochnye-prodkuty-syry-i-yayca/syry/polutverdye?from=under_search&page=2"
 # response = requests.get(url, headers=headers)
@@ -20,4 +20,4 @@ cards = PageParser.parse_cards(soup)
 
 brands = PageParser.parse_brands(soup)
 
-print(pformat(CardParser.parse(cards[0], brands)))
+print(utils.get_next_page("https://online.metro-cc.ru/category/molochnye-prodkuty-syry-i-yayca/syry/polutverdye?from=under_search"))
