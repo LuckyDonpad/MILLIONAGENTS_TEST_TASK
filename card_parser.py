@@ -1,7 +1,19 @@
 class CardParser:
     @staticmethod
-    def parse(card):
-        pass
+    def parse(card, brands):
+        name = CardParser.parse_name(card)
+        link = CardParser.parse_link(card)
+        actual_price = CardParser.parse_actual_price(card)
+        old_price = CardParser.parse_old_price(card)
+        id = link.split('/')[-1]
+        brand = CardParser.parse_brand(brands,name)
+        res = {'name':name,
+               'link':link,
+               'actual_price':actual_price,
+               'old_price':old_price,
+               'id':id,
+               'brand':brand}
+        return res
 
     @staticmethod
     def parse_link(card):
@@ -41,3 +53,10 @@ class CardParser:
             return old_price_rubs + old_price_penny
         else:
             return old_price_rubs
+
+    @staticmethod
+    def parse_brand(brands: str, name: str) -> str:
+        for brand in brands:
+            if brand in name.upper():
+                return brand
+        return None
