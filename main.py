@@ -2,6 +2,7 @@ import requests
 import fake_useragent
 from bs4 import BeautifulSoup
 from card_parser import CardParser
+from page_parser import PageParser
 
 user_agent = fake_useragent.UserAgent().random
 headers = {"User-Agent": user_agent}
@@ -12,10 +13,8 @@ headers = {"User-Agent": user_agent}
 with open("response_page2.html", "r", encoding='utf-8') as file:
     response = file.read()
 soup = BeautifulSoup(response, 'lxml')
-cards = soup.find_all('div', class_='product-card__content')
+cards = PageParser.parse_cards(soup)
 
-print(CardParser.parse_link(cards[5]))
-print(CardParser.parse_name(cards[5]))
-print(CardParser.parse_actual_price(cards[5]))
-print(CardParser.parse_old_price(cards[5]))
+brands = PageParser.parse_brands(soup)
+
 
