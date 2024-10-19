@@ -12,3 +12,9 @@ class PageParser:
         for brand in brands:
             result.append(brand.text.strip())
         return result
+
+    @staticmethod
+    def parse_pagecount(soup):
+        pages = soup.find_all(class_="v-pagination__item catalog-paginate__item")
+        pagecount = int(pages[-1].text)
+        return pagecount
