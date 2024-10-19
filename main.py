@@ -13,6 +13,7 @@ from tqdm.asyncio import trange, tqdm
 import aiohttp
 import asyncio
 import os
+from file_saver import FileSaver
 
 
 def parse_command_line():
@@ -28,6 +29,8 @@ def parse_command_line():
     parser.add_argument('--coords', type=str, help="Coords of shop, can be found in cookie 'coords'")
     parser.add_argument('--id', type=str, help="ID of shop, can be found in cookie 'metroStoreId'")
     parser.add_argument('--path', type=str, help="relative path to save htmls")
+    parser.add_argument('--csv', type=str, help="relative path to save csv")
+    parser.add_argument('--json', type=str, help="relative path to save json")
 
     args = parser.parse_args()
     return args
@@ -82,7 +85,11 @@ def main():
     for card in tqdm(cards):
         data.append(CardParser.parse(card, brands))
 
-    for d in data:
-        print(pformat(d))
+    if args.csv:
+        FileSaver.save_csv(args.csv, data)
+    if args.json:
+        FileSaver.save_json(args.json, data)
+
+
 if __name__ == '__main__':
     main()
